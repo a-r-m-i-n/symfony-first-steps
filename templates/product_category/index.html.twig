@@ -20,7 +20,7 @@
                 <td>{{ product_category.name }}</td>
                 <td>
                     <a href="{{ path('app_product_category_show', {'id': product_category.id}) }}">show</a>
-                    <a href="{{ path('app_product_category_edit', {'id': product_category.id}) }}">edit</a>
+                    {% if is_granted('ROLE_EDITOR') %}<a href="{{ path('app_product_category_edit', {'id': product_category.id}) }}">edit</a>{% endif %}
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_category_new') }}">Create new</a>
+    {% if is_granted('ROLE_EDITOR') %}<a href="{{ path('app_product_category_new') }}">Create new</a>{% endif %}
 {% endblock %}

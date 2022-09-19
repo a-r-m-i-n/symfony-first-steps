@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ProductCategory;
 use App\Form\ProductCategoryType;
 use App\Repository\ProductCategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class ProductCategoryController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_EDITOR')]
     #[Route('/new', name: 'app_product_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductCategoryRepository $productCategoryRepository): Response
     {
@@ -48,6 +50,7 @@ class ProductCategoryController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_EDITOR')]
     #[Route('/{id}/edit', name: 'app_product_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ProductCategory $productCategory, ProductCategoryRepository $productCategoryRepository): Response
     {
@@ -66,9 +69,11 @@ class ProductCategoryController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_EDITOR')]
     #[Route('/{id}', name: 'app_product_category_delete', methods: ['POST'])]
     public function delete(Request $request, ProductCategory $productCategory, ProductCategoryRepository $productCategoryRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_PRODUCT_EDITOR');
         if ($this->isCsrfTokenValid('delete'.$productCategory->getId(), $request->request->get('_token'))) {
             $productCategoryRepository->remove($productCategory, true);
         }

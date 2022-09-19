@@ -20,7 +20,7 @@
 
     <a href="{{ path('app_product_category_index') }}">back to list</a>
 
-    <a href="{{ path('app_product_category_edit', {'id': product_category.id}) }}">edit</a>
+    {% if is_granted('ROLE_EDITOR') %}<a href="{{ path('app_product_category_edit', {'id': product_category.id}) }}">edit</a>{% endif %}
 
-    {{ include('product_category/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_EDITOR') %}{{ include('product_category/_delete_form.html.twig') }}{% endif %}
 {% endblock %}
