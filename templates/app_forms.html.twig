@@ -1,1 +1,7 @@
 {% use "bootstrap_5_layout.html.twig" %}
+
+{% block _product_releaseDate_label %}
+    <legend class="col-form-label">
+        <h6 class="text-success">{{ form.vars.label|default(name|humanize) }}</h6>
+    </legend>
+{% endblock %}
