@@ -27,5 +27,8 @@
     <hr>
 
     <h2>A random number: <strong>{{ random_number }}</strong></h2>
+    <small style="display:block;">Configured minimum (from ParameterBag): {{ configuredParameters['app.min_number'] }}</small>
+    <small style="display:block;">Configured maximum (from ParameterBag): {{ configuredParameters['app.max_number'] }}</small>
+
 </div>
 {% endblock %}
