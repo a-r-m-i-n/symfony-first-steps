@@ -13,7 +13,6 @@ class ProductCategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('products')
         ;
     }
 
