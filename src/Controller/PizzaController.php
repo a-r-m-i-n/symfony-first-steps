@@ -12,6 +12,8 @@ class PizzaController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+        $this->addFlash('notice', 'Du wurdest auf "/essen" weitergeleitet. Das nur zur Info ;-)');
+
         return $this->redirectToRoute('app_pizza_essen');
     }
 
