@@ -16,5 +16,12 @@
         <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/MyFirstController.php'|file_link(0) }}">src/Controller/MyFirstController.php</a></code></li>
         <li>Your template at <code><a href="{{ '/var/www/html/templates/welcome/index.html.twig'|file_link(0) }}">templates/welcome/index.html.twig</a></code></li>
     </ul>
+
+    <hr>
+
+    <ul>
+        <li>Absolute URL to a route:<br><code>{{ absolute_url_to_route }}</code><br> (made in Controller)</li>
+        <li>Relative URL to a route:<br><code>{{ path("app_pizza_essen", {sorte: 'Quattro Formaggi'}) }}</code><br> (made in Twig)</li>
+    </ul>
 </div>
 {% endblock %}
