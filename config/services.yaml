@@ -28,3 +28,8 @@ services:
         arguments:
             $min: '%app.min_number%'
             $max: '%app.max_number%'
+
+
+    App\EventListener\NoRandomNumberListener:
+        tags:
+            - { name: kernel.event_listener, event: App\Event\RandomNumberGeneratedEvent }
