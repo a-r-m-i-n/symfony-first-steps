@@ -3,8 +3,34 @@
         <h1>Hallo Welt 123</h1>
     {% endblock %}
     <div>
+
         {% block carriers %}
             {{ dump(carriers) }}
         {% endblock %}
+
+        {% block pagination %}
+            {% if maxPages > 1 %}
+                <ul class="pagination pagination-sm">
+                    {# `«` arrow  #}
+                    <li {{ thisPage == 1 ? 'class="disabled"' }}>
+                        <a href="{{ path('example_hello_index', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}">«</a>
+                    </li>
+
+                    {# Render each page number #}
+                    {% for i in 1..maxPages %}
+                        <li {{ thisPage == i ? 'class="active"' }}>
+                            <a href="{{ path('example_hello_index', {page: i}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {# `»` arrow #}
+                    <li {{ thisPage == maxPages ? 'class="disabled"' }}>
+                        <a href="{{ path('example_hello_index', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
+                    </li>
+                </ul>
+            {% endif %}
+        {% endblock %}
+
+
     </div>
 {% endblock %}

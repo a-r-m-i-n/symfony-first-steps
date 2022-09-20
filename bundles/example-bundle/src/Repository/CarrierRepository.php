@@ -5,6 +5,8 @@ namespace Armin\ExampleBundle\Repository;
 use Armin\ExampleBundle\Entity\Carrier;
 use Armin\ExampleBundle\Event\CarrierFindAllEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -38,6 +40,26 @@ class CarrierRepository extends ServiceEntityRepository
         return $event->getQueryBuilder()->getQuery()->getResult();
     }
 
+    public function findAllPaginated(int $page = 1, int $limit = 5): Paginator
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        /** @var CarrierFindAllEvent $event */
+        $event = $this->dispatcher->dispatch(new CarrierFindAllEvent($queryBuilder));
+
+        return $this->paginate($event->getQueryBuilder()->getQuery(), $page, $limit);
+    }
+
+    private function paginate(Query $dql, int $page, int $limit = 2): Paginator
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
 
     public function add(Carrier $entity, bool $flush = false): void
     {
