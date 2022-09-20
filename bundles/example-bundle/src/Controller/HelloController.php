@@ -13,7 +13,7 @@ class HelloController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(CarrierRepository $carrierRepository): Response
     {
-        return $this->render('@Example/hello.twig.html', [
+        return $this->render('@Example/hello.html.twig', [
             'carriers' => $carrierRepository->findAll(),
         ]);
     }
