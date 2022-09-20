@@ -4,7 +4,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     Armin\ExampleBundle\:
-        public: true
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
