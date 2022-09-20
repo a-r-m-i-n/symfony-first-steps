@@ -1,0 +1,17 @@
+{% extends '@!Example/hello.html.twig' %}
+
+{% block header %}
+    <h2>Hallo Welt 123</h2>
+{% endblock %}
+
+{% block carriers %}
+    {{ parent() }}
+
+    <ul>
+        {% for carrier in carriers %}
+            <li class="item-{{ loop.index }}">{{ carrier.name }}</li>
+        {% else %}
+            <li><em>Keine Carrierer gefunden</em></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
