@@ -5,3 +5,7 @@ controllers:
 example-bundle:
     prefix: /my-supercool-bundle
     resource: '@ExampleBundle/config/routing.yaml'
+
+go-bundle:
+    prefix: /go
+    resource: '@GoBundle/config/routing.yaml'

@@ -5,6 +5,10 @@
     "prefer-stable": true,
     "repositories": [
         {
+            "type": "vcs",
+            "url": "https://github.com/a-r-m-i-n/go-another-example.git"
+        },
+        {
             "type": "path",
             "url": "bundles/*"
         }
@@ -31,6 +35,9 @@
         "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
+
+        "armin/go-bundle": "^0.1",
+
         "armin/example-bundle": "*@dev"
     },
     "config": {

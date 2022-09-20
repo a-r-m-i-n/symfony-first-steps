@@ -2,6 +2,9 @@
     "armin/example-bundle": {
         "version": "dev-master"
     },
+    "armin/go-bundle": {
+        "version": "0.1.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {

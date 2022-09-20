@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfd01e806f232485704ea0c73ec3f216",
+    "content-hash": "838dd6fc5eac88da26e8532d5d4099b2",
     "packages": [
         {
             "name": "armin/example-bundle",
@@ -23,6 +23,35 @@
             "transport-options": {
                 "relative": true
             }
+        },
+        {
+            "name": "armin/go-bundle",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:a-r-m-i-n/go-another-example.git",
+                "reference": "960b007b2b25e196b19c51b28b9123717a958e73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/a-r-m-i-n/go-another-example/zipball/960b007b2b25e196b19c51b28b9123717a958e73",
+                "reference": "960b007b2b25e196b19c51b28b9123717a958e73",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "^6.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Armin\\GoBundle\\": "src"
+                }
+            },
+            "support": {
+                "source": "https://github.com/a-r-m-i-n/go-another-example/tree/0.1.1",
+                "issues": "https://github.com/a-r-m-i-n/go-another-example/issues"
+            },
+            "time": "2022-09-20T08:38:12+00:00"
         },
         {
             "name": "doctrine/annotations",
