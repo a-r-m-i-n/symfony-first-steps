@@ -33,3 +33,7 @@ services:
     App\EventListener\NoRandomNumberListener:
         tags:
             - { name: kernel.event_listener, event: App\Event\RandomNumberGeneratedEvent }
+
+    App\EventListener\CarrierFindAllEventListener:
+        tags:
+            - { name: kernel.event_listener, event: Armin\ExampleBundle\Event\CarrierFindAllEvent }
