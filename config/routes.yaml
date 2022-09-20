@@ -1,3 +1,7 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+example-bundle:
+    prefix: /my-supercool-bundle
+    resource: '@ExampleBundle/config/routing.yaml'
