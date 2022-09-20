@@ -2,6 +2,7 @@
 
 namespace Armin\ExampleBundle\Repository;
 
+use App\Dto\CarrierFilterDto;
 use Armin\ExampleBundle\Entity\Carrier;
 use Armin\ExampleBundle\Event\CarrierFindAllEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -48,6 +49,20 @@ class CarrierRepository extends ServiceEntityRepository
         $event = $this->dispatcher->dispatch(new CarrierFindAllEvent($queryBuilder));
 
         return $this->paginate($event->getQueryBuilder()->getQuery(), $page, $limit);
+    }
+
+    public function findByFilterDtoPaginated(CarrierFilterDto $filterDto, int $page, int $limit)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+        if ($filterDto->query !== null) {
+            $queryBuilder->andWhere('c.name LIKE :val')->setParameter('val', '%' . $filterDto->query . '%');
+        }
+        if ($filterDto->isCool !== null) {
+            $queryBuilder->andWhere('c.isCool = :cool')->setParameter('cool', $filterDto->isCool);
+        }
+
+        return $this->paginate($queryBuilder->getQuery(), $page, $limit);
+
     }
 
     private function paginate(Query $dql, int $page, int $limit = 2): Paginator

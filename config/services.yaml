@@ -7,7 +7,7 @@ parameters:
     app.min_number: 0
     app.max_number: 1000
 
-    pagination.itemsPerPage: 1
+    pagination.itemsPerPage: 2
 
 services:
     # default configuration for services in *this* file

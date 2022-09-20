@@ -16,6 +16,9 @@ class Carrier
     #[ORM\Column(length: 255)]
     public string $name;
 
+    #[ORM\Column(type: 'boolean')]
+    public bool $isCool = false;
+
 
     public function getId(): ?int
     {

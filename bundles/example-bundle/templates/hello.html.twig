@@ -2,6 +2,16 @@
     {% block header %}
         <h1>Hallo Welt 123</h1>
     {% endblock %}
+
+    {% block filter %}
+        <div class="filter">
+
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+
+        </div>
+    {% endblock %}
+
     <div>
 
         {% block carriers %}
