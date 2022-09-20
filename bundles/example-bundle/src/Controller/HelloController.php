@@ -5,6 +5,7 @@ namespace Armin\ExampleBundle\Controller;
 use App\Dto\CarrierFilterDto;
 use Armin\ExampleBundle\Repository\CarrierRepository;
 use Armin\ExampleBundle\Service\PdfService;
+use Mpdf\Output\Destination;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -13,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/hello', name: 'example_hello_')]
@@ -79,8 +82,12 @@ class HelloController extends AbstractController
     }
 
     #[Route('/export/pdf', name: 'export_pdf')]
-    public function exportPdf(Request $request, CarrierRepository $carrierRepository, PdfService $pdfService): Response
-    {
+    public function exportPdf(
+        Request $request,
+        CarrierRepository $carrierRepository,
+        PdfService $pdfService,
+        MailerInterface $mailer
+    ): Response {
         $filter = $request->getSession()->get(CarrierFilterDto::class, new CarrierFilterDto());
         $page = (int)$request->get('page', 1);
         if (isset($filter)) {
@@ -96,8 +103,19 @@ class HelloController extends AbstractController
             );
         }
 
-        $pdf = $pdfService->makePdf('@Example/pdf/CarrierExport.html.twig', ['items' => $paginator]);
+        $mpdf = $pdfService->makePdf('@Example/pdf/CarrierExport.html.twig', ['items' => $paginator]);
 
-        return $pdfService->createBinaryPdfResponse($pdf);
+        $email = new Email();
+        $email
+            ->from('weihnachtsmann@nordpol.gov')
+            ->to('armin@v.ieweg.de')
+            ->subject('Dein Export als PDF')
+            ->text('Hier ist dein PDF')
+            ->html('Hier ist <b>dein PDF</b>')
+            ->attach($mpdf->Output('', Destination::STRING_RETURN), 'export-attachment.pdf', 'application/pdf')
+        ;
+        $mailer->send($email);
+
+        return $pdfService->createBinaryPdfResponse($mpdf);
     }
 }
