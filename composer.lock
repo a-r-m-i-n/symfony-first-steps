@@ -4,8 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fc16abf93483ea088bf6e195d6c607d",
+    "content-hash": "cfd01e806f232485704ea0c73ec3f216",
     "packages": [
+        {
+            "name": "armin/example-bundle",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "bundles/example-bundle",
+                "reference": "fb0f3b8ac1272c5a860ebb4b663cf564e0c48db3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Armin\\ExampleBundle\\": "src"
+                }
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.13.3",
@@ -6185,7 +6203,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "armin/example-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
