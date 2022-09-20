@@ -1,0 +1,13 @@
+<style>
+    h1 {
+        color: blue;
+    }
+</style>
+
+Hauptcontent vom PDF
+<hr>
+Anzahl: {{ items.iterator|length }}
+
+{% for item in items %}
+    <h1>{{ item.name }}</h1>
+{% endfor %}

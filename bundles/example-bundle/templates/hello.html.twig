@@ -41,6 +41,9 @@
             {% endif %}
         {% endblock %}
 
+        {% block export %}
+            <a href="{{ path('example_hello_export_pdf', {page: thisPage}) }}">Export result to PDF</a>
+        {% endblock %}
 
     </div>
 {% endblock %}

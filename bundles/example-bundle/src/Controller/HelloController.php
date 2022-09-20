@@ -4,6 +4,7 @@ namespace Armin\ExampleBundle\Controller;
 
 use App\Dto\CarrierFilterDto;
 use Armin\ExampleBundle\Repository\CarrierRepository;
+use Armin\ExampleBundle\Service\PdfService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -75,5 +76,28 @@ class HelloController extends AbstractController
         $request->getSession()->remove(CarrierFilterDto::class);
 
         return $this->redirectToRoute('example_hello_index');
+    }
+
+    #[Route('/export/pdf', name: 'export_pdf')]
+    public function exportPdf(Request $request, CarrierRepository $carrierRepository, PdfService $pdfService): Response
+    {
+        $filter = $request->getSession()->get(CarrierFilterDto::class, new CarrierFilterDto());
+        $page = (int)$request->get('page', 1);
+        if (isset($filter)) {
+            $paginator = $carrierRepository->findByFilterDtoPaginated(
+                $filter,
+                $page,
+                $this->itemsPerPage
+            );
+        } else {
+            $paginator = $carrierRepository->findAllPaginated(
+                $page,
+                $this->itemsPerPage
+            );
+        }
+
+        $pdf = $pdfService->makePdf('@Example/pdf/CarrierExport.html.twig', ['items' => $paginator]);
+
+        return $pdfService->createBinaryPdfResponse($pdf);
     }
 }

@@ -5,5 +5,9 @@
         "psr-4": {
             "Armin\\ExampleBundle\\": "src"
         }
+    },
+    "require": {
+        "symfony/framework-bundle": "^6.1",
+        "mpdf/mpdf": "^8.1"
     }
 }
