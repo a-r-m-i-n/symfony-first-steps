@@ -6,6 +6,7 @@ use App\Dto\CarrierFilterDto;
 use Armin\ExampleBundle\Repository\CarrierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,10 +24,12 @@ class HelloController extends AbstractController
         $this->itemsPerPage = $parameterBag->get('pagination.itemsPerPage');
     }
 
-    #[Route('/{page}', name: 'index', defaults: ['page' => 1], methods: ['GET', 'POST'])]
+    #[Route('/{page}', name: 'index', defaults: ['page' => 1], requirements: ['page' => '\d+'], methods: ['GET', 'POST'])]
     public function index(Request $request, CarrierRepository $carrierRepository, int $page = 1): Response
     {
-        $filter = new CarrierFilterDto();
+        $filter = $request->getSession()->get(CarrierFilterDto::class, new CarrierFilterDto());
+
+        $resetUrl = $this->generateUrl('example_hello_reset');
         $form = $this->createFormBuilder($filter)
             ->add('query', TextType::class, ['required' => false])
             ->add('isCool', ChoiceType::class, ['required' => false, 'empty_data' => null, 'choices' => [
@@ -34,12 +37,18 @@ class HelloController extends AbstractController
                 'No' => false,
             ]])
             ->add('submit', SubmitType::class, ['label' => 'Suchen'])
+
+            ->add('reset', ButtonType::class, ['label' => 'Reset', 'attr' => [
+                'onclick' => 'location.href = "' . $resetUrl . '";'
+            ]])
+
             ->getForm()
         ;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $request->getSession()->set(CarrierFilterDto::class, $form->getData());
             $paginator = $carrierRepository->findByFilterDtoPaginated(
                 $form->getData(),
                 $page,
@@ -58,5 +67,13 @@ class HelloController extends AbstractController
             'maxPages' => (int)ceil($paginator->count() / $this->itemsPerPage),
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/reset-session', name: 'reset')]
+    public function reset(Request $request)
+    {
+        $request->getSession()->remove(CarrierFilterDto::class);
+
+        return $this->redirectToRoute('example_hello_index');
     }
 }
